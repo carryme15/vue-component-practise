@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{counter}}</p>
+        <my-component @syncstat="addone"></my-component>
+        <my-component @syncstat="addone"></my-component>
+    </div>
+    <script>
+        // vue实例有二个计数器组件，现在想要两个计数器总值
+        // 计数器更新就把状态通知到父级，下面是实现
+        // 自定义事件为syncstat
+        // 注意：事件全小写，不能驼峰
+        Vue.component('my-component', {
+            template: `<button @click="counterAdd">{{counter}}</button>`, 
+            data(){
+                return {
+                    counter: 0
+                }
+            },
+            methods: {
+                counterAdd(){
+                    this.counter++
+                    this.$emit('syncstat')
+                }
+            }
+        })
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                counter: 0
+            },
+            methods: {
+                addone(){
+                    console.log('+1')
+                    this.counter += 1
+                }
+            }
+        })
+        // 路径trim过滤器
+        // pathtrim delim /
+        // 注意：这是对象里的方法
+        // pathtrim(path){
+        //     return path.split('/').forEach(v=>v.trim()).join('/')
+        // } 
+    </script>
+</body>
+</html>

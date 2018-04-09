@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component @myalert="printName"></my-component>
+    </div>
+    <script>
+    // 自定义事件
+    // 组件通过发布自定义事件上传数据到父级
+    // 父级收到消息后，执行自定义事件绑定的方法
+    Vue.component('my-component', {
+        template: `<button @click="$emit('myalert', 'RBL')">print my name in console</button>`
+    })
+    let vm = new Vue({
+        el: '#app',
+        methods: {
+            printName(s){
+                console.log(s)
+            }
+        }
+    })
+    </script>
+</body>
+</html>

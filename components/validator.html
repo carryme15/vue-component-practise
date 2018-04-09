@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component prop-a="RBL" prop-b="raobingliang" :prop-d="9" :prop-e="1"></my-component>
+    </div>
+    <script>
+        // prop验证
+        // 1. 类型验证: type 类型数组或单个类型
+        // 2. 默认值: default 具体值或函数
+        // 3. 逻辑验证: validator 函数(返回boolean)
+        // 4. 是否必须: require boolean
+
+        // tips: 组件实例化之前校验，因此组件实例化后的属性肯定是无法在validator 或 default里使用的
+        //       组件在vm.$children数组里
+
+        // 补充知识：
+        // String | Number | Boolean | Function | Object | Symbol | Array
+        // 基本字符串和字符串对象的区别
+        // - 基本字符串来源：直接用字符串赋值给变量, 或直接使用String工厂函数(没有使用new)
+        // - 字符串对象来源：使用new String工厂函数生成的对象
+        // - 如果基本字符串的语句里调用了字符串方法时，javascript会默认将基本字符串转换成字符串对象
+        // - 基本字符串转换成字符串对象：new String(s)
+        // - 字符串对象转换成基本字符串：s_obj.valueOf()
+        // 
+        // eval 跟python的一样，不过它只接收基本字符串
+        // instanceof 只有对象才可以使用，用法 obj instanceof obj_construct e.g s_obj instanceof String
+        // typeof(s) === 'string' typof(s_obj) === 'object'
+        
+        Vue.component('myComponent', {
+            template: `<p></p>`, 
+            props: {
+                // 单类型
+                propA: String,
+                // 类型数组
+                propB: [String, Number],
+                // 默认值
+                propC: {
+                    type: [String, Number],
+                    default: 2
+                },
+                // 逻辑验证
+                propD: {
+                    type: Number,
+                    validator(s){
+                        return s > 5
+                    }
+                },
+                // 是否必须
+                propE: {
+                    type: Number,
+                    require: true
+                }
+            }
+        })
+        let vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

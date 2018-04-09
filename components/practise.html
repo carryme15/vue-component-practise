@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+</head>
+<body>
+    <!-- 动态prop -->
+    <div id="prop-example-1">
+        <input type="text" placeholder="input your name" v-model="parentMessage">
+        <my-component1 :my-message="parentMessage"></my-component1>
+    </div>
+    <!-- 处理prop -->
+    <div id="prop-example-2">
+        <input type="text" placeholder="input your path" v-model="path">
+        <p>{{tip()}}</p>
+        <my-component2 :my-message="path"></my-component2>
+    </div>
+    <script>
+        let myComponent1 = {
+            template: `<p>{{myMessage}}</p>`,
+            props: ['myMessage']
+        }
+
+        let myComponent2 = {
+            template: `<p>{{myMessage}}</p>`,
+            props: ['myMessage'],
+        }
+
+        let vm1 = new Vue({
+            el: '#prop-example-1',
+            data: {
+                parentMessage: ''
+            },
+            components: {
+                myComponent1
+            }
+        })
+
+        let vm2 = new Vue({
+            el: '#prop-example-2',
+            data: {
+                path: ''
+            },
+            components: {
+                myComponent2
+            },
+            methods: {
+                tip: _.debounce(function(event){
+                    console.log('hahah')
+                    if (this.path.indexOf('/') === -1){
+                        console.log('not a path, waiting for an input')
+                        return this.path + ' is not a path'
+                    }
+                    console.log(this.path)
+                    return this.path + ' is a path'
+                }, 500)
+            }
+        })
+    </script>
+</body>
+</html>

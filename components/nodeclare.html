@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component my-judge="true"></my-component>
+    </div>
+    <script>
+        // 未声明的prop会直接体现在根标签上，原封不动
+        // e.g <p my-judge="true"></p>
+        // 官网上有详细的介绍，叫做非prop特性
+        Vue.component('myComponent', {
+            template: `<p></p>`
+        })
+        let vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
